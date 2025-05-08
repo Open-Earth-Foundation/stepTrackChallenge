@@ -4,7 +4,6 @@ import brazilWebSvg from "../assets/branding/brazil-web.svg";
 import brazilCountrySvg from "../assets/branding/brazil-country.svg";
 import brazilFullMap from "../assets/branding/brazil-full-map.png";
 import brazilNewMap from "../assets/branding/brazil-new-map.webp";
-import brazilAccurateMap from "../assets/maps/brazil-accurate-map.svg";
 import earthImageSvg from "../assets/branding/earth-image.svg";
 
 interface Landmark {
@@ -53,7 +52,7 @@ const TeamProgress: FC<TeamProgressProps> = ({
         </div>
       </div>
       
-      {/* Brazil Map with Progress - Back to original map */}
+      {/* Brazil Map with Progress */}
       <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2 relative">
         <img 
           src={brazilNewMap}
