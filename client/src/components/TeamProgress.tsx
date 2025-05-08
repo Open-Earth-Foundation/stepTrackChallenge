@@ -4,6 +4,7 @@ import brazilWebSvg from "../assets/branding/brazil-web.svg";
 import brazilCountrySvg from "../assets/branding/brazil-country.svg";
 import brazilFullMap from "../assets/branding/brazil-full-map.png";
 import brazilNewMap from "../assets/branding/brazil-new-map.webp";
+import brazilAccurateMap from "../assets/maps/brazil-accurate-map.svg";
 import earthImageSvg from "../assets/branding/earth-image.svg";
 
 interface Landmark {
@@ -52,11 +53,11 @@ const TeamProgress: FC<TeamProgressProps> = ({
         </div>
       </div>
       
-      {/* Brazil Map with Progress */}
+      {/* Brazil Map with Progress - Using accurate map */}
       <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2 relative">
         <img 
-          src={brazilNewMap}
-          alt="Map of Brazil showing relief features" 
+          src={brazilAccurateMap}
+          alt="Map of Brazil with accurate city positions" 
           className="w-full h-auto rounded-xl" 
         />
         
@@ -72,109 +73,82 @@ const TeamProgress: FC<TeamProgressProps> = ({
                 </linearGradient>
               </defs>
               
-              {/* SVG path that traces Brazil's Atlantic coast through major cities */}
+              {/* The path appears in the SVG itself, we don't need to overlap it */}
+              {/* We'll just add animation for the journey progress */}
               <path
-                d="M 130,70 C 140,110 150,130 165,150 C 180,170 185,200 180,220 C 175,240 170,260 165,280 C 160,300 155,320 150,340 C 145,360 130,380 115,390"
+                d="M270,285 C271,305 273,325 275,350 C280,360 290,363 320,365 
+                 C340,367 365,368 383,369 C400,380 415,395 428,410
+                 C435,425 438,435 440,445 C435,470 425,495 410,520
+                 C390,555 370,595 345,640 C330,645 320,650 310,655
+                 C300,670 290,683 285,695 C270,710 260,720 255,730
+                 C245,750 235,770 225,790"
                 stroke="url(#journeyGradient)"
-                strokeWidth="4"
+                strokeWidth="6"
                 fill="none"
                 strokeLinecap="round"
-                strokeDasharray="1000"
-                strokeDashoffset={1000 - (completionPercentage * 10)}
-                style={{ filter: 'drop-shadow(0 0 3px rgba(36, 190, 0, 0.5))' }}
+                strokeDasharray="1500"
+                strokeDashoffset={1500 - (completionPercentage * 15)}
+                style={{ filter: 'drop-shadow(0 0 6px rgba(36, 190, 0, 0.6))' }}
               />
-              
-              {/* Major cities along the Atlantic coast */}
-              <g>
-                {/* Oiapoque (Northernmost point) */}
-                <circle cx="130" cy="70" r="4" fill="#2351DC" />
-                <text x="118" y="60" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Oiapoque</text>
-                
-                {/* Belém */}
-                <circle cx="145" cy="110" r="4" fill="#2351DC" />
-                <text x="132" y="110" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Belém</text>
-                
-                {/* São Luís */}
-                <circle cx="160" cy="135" r="4" fill="#2351DC" />
-                
-                {/* Fortaleza */}
-                <circle cx="175" cy="160" r="4" fill="#2351DC" />
-                <text x="190" y="160" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Fortaleza</text>
-                
-                {/* Natal */}
-                <circle cx="182" cy="180" r="4" fill="#2351DC" />
-                
-                {/* Recife */}
-                <circle cx="180" cy="210" r="4" fill="#2351DC" />
-                <text x="195" y="210" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Recife</text>
-                
-                {/* Salvador */}
-                <circle cx="170" cy="250" r="4" fill="#2351DC" />
-                <text x="185" y="250" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Salvador</text>
-                
-                {/* Rio de Janeiro */}
-                <circle cx="155" cy="320" r="4" fill="#2351DC" />
-                <text x="140" y="320" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Rio</text>
-                
-                {/* São Paulo */}
-                <circle cx="145" cy="345" r="4" fill="#2351DC" />
-                <text x="130" y="345" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">São Paulo</text>
-                
-                {/* Porto Alegre */}
-                <circle cx="125" cy="380" r="4" fill="#24BE00" />
-                <text x="145" y="380" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Porto Alegre</text>
-                
-                {/* Chuí (Southernmost point) */}
-                <circle cx="115" cy="390" r="4" fill="#24BE00" />
-                <text x="100" y="390" fontSize="8" fill="#fff" stroke="#000" strokeWidth="0.5" textAnchor="middle">Chuí</text>
-              </g>
             </svg>
             
-            {/* Current Position Indicator - Follow the Atlantic coastal path */}
+            {/* Current Position Indicator - Follow the Atlantic coastal path with correct coordinates */}
             {completionPercentage > 0 && completionPercentage < 100 && (
               <div 
                 className="absolute w-6 h-6 bg-accent border-2 border-white rounded-full shadow-lg animate-pulse z-20"
                 style={{ 
-                  // Position calculation for the Atlantic coastal path
+                  // Position calculation matching the accurate SVG map
                   left: `${
-                    completionPercentage < 20 ? 
-                      // North segment (Oiapoque to Belém)
-                      130 + (completionPercentage/20) * (145-130)
-                      : completionPercentage < 35 ? 
-                      // North-East segment (Belém to Fortaleza)
-                      145 + ((completionPercentage-20)/15) * (175-145)
+                    completionPercentage < 12 ? 
+                      // North segment (Oiapoque)
+                      270 + (completionPercentage/12) * (275-270)
+                      : completionPercentage < 25 ? 
+                      // North-East segment (Belém to São Luís)
+                      275 + ((completionPercentage-12)/13) * (320-275)
+                      : completionPercentage < 37 ? 
+                      // Fortaleza segment
+                      320 + ((completionPercentage-25)/12) * (383-320)
                       : completionPercentage < 50 ? 
-                      // East segment (Fortaleza to Recife)
-                      175 + ((completionPercentage-35)/15) * (180-175)
-                      : completionPercentage < 65 ? 
-                      // Salvador segment
-                      180 - ((completionPercentage-50)/15) * (180-170)
-                      : completionPercentage < 80 ? 
-                      // Rio segment
-                      170 - ((completionPercentage-65)/15) * (170-155)
-                      : 
-                      // South segment (Rio to Chuí)
-                      155 - ((completionPercentage-80)/20) * (155-115)
+                      // Natal to Recife
+                      383 + ((completionPercentage-37)/13) * (440-383)
+                      : completionPercentage < 63 ? 
+                      // Recife to Salvador
+                      440 - ((completionPercentage-50)/13) * (440-410)
+                      : completionPercentage < 76 ? 
+                      // Salvador to Rio
+                      410 - ((completionPercentage-63)/13) * (410-345)
+                      : completionPercentage < 88 ?
+                      // Rio to São Paulo and Florianópolis
+                      345 - ((completionPercentage-76)/12) * (345-285)
+                      :
+                      // South end (Porto Alegre to Chuí)
+                      285 - ((completionPercentage-88)/12) * (285-225)
                   }px`,
                   top: `${
-                    completionPercentage < 20 ? 
+                    completionPercentage < 12 ? 
                       // North segment
-                      70 + (completionPercentage/20) * (110-70)
-                      : completionPercentage < 35 ? 
+                      285 + (completionPercentage/12) * (350-285)
+                      : completionPercentage < 25 ? 
                       // North-East segment
-                      110 + ((completionPercentage-20)/15) * (160-110)
+                      350 + ((completionPercentage-12)/13) * (365-350)
+                      : completionPercentage < 37 ? 
+                      // Fortaleza segment
+                      365 + ((completionPercentage-25)/12) * (369-365)
                       : completionPercentage < 50 ? 
-                      // East segment
-                      160 + ((completionPercentage-35)/15) * (210-160)
-                      : completionPercentage < 65 ? 
-                      // Salvador segment
-                      210 + ((completionPercentage-50)/15) * (250-210)
-                      : completionPercentage < 80 ? 
-                      // Rio segment
-                      250 + ((completionPercentage-65)/15) * (320-250)
-                      : 
-                      // South segment
-                      320 + ((completionPercentage-80)/20) * (390-320)
+                      // Natal to Recife segment
+                      369 + ((completionPercentage-37)/13) * (445-369)
+                      : completionPercentage < 63 ? 
+                      // Recife to Salvador segment
+                      445 + ((completionPercentage-50)/13) * (520-445)
+                      : completionPercentage < 76 ? 
+                      // Salvador to Rio segment
+                      520 + ((completionPercentage-63)/13) * (640-520)
+                      : completionPercentage < 88 ?
+                      // Rio to São Paulo and Florianópolis
+                      640 + ((completionPercentage-76)/12) * (695-640)
+                      :
+                      // South end
+                      695 + ((completionPercentage-88)/12) * (790-695)
                   }px`,
                   transform: 'translate(-50%, -50%)'
                 }}
@@ -182,16 +156,19 @@ const TeamProgress: FC<TeamProgressProps> = ({
                 {/* Inner pulse effect */}
                 <span className="absolute inset-0 rounded-full bg-white/40 animate-ping"></span>
                 
-                {/* Label showing current city/region */}
+                {/* Label showing current city/region - Updated for accurate cities */}
                 <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-accent/90 text-white text-xs px-2 py-0.5 rounded whitespace-nowrap">
-                  {completionPercentage < 10 ? "Oiapoque" :
+                  {completionPercentage < 12 ? "Oiapoque" :
                    completionPercentage < 25 ? "Belém" :
-                   completionPercentage < 38 ? "Fortaleza" :
+                   completionPercentage < 37 ? "Fortaleza" :
+                   completionPercentage < 44 ? "Natal" :
                    completionPercentage < 50 ? "Recife" :
-                   completionPercentage < 65 ? "Salvador" :
-                   completionPercentage < 78 ? "Rio" :
-                   completionPercentage < 90 ? "São Paulo" :
-                   "Porto Alegre"}
+                   completionPercentage < 63 ? "Salvador" :
+                   completionPercentage < 76 ? "Rio de Janeiro" :
+                   completionPercentage < 82 ? "São Paulo" :
+                   completionPercentage < 88 ? "Florianópolis" :
+                   completionPercentage < 95 ? "Porto Alegre" :
+                   "Chuí"}
                 </div>
               </div>
             )}
