@@ -1,5 +1,6 @@
 import { FC } from "react";
 import brazilMapSvg from "../assets/branding/brazil-map.svg";
+import earthImageSvg from "../assets/branding/earth-image.svg";
 
 interface Landmark {
   id: number;
@@ -47,6 +48,15 @@ const TeamProgress: FC<TeamProgressProps> = ({
         </div>
       </div>
       
+      {/* Earth Image Banner */}
+      <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2">
+        <img 
+          src={earthImageSvg}
+          alt="Earth with Brazil highlighted" 
+          className="w-full h-auto rounded-xl" 
+        />
+      </div>
+      
       {/* Progress Map of Brazil */}
       <div className="map-container mb-6 border border-secondary/20 rounded-xl overflow-hidden">
         <img 
@@ -54,29 +64,27 @@ const TeamProgress: FC<TeamProgressProps> = ({
           alt="Map of Brazil coastline with team progress" 
           className="w-full h-auto rounded-xl" 
         />
-        
-        {/* Progress indicator overlay - removed as it's now included in the SVG */}
       </div>
       
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Distance Covered</div>
-          <div className="text-xl font-bold text-neutral-800 dark:text-white">{totalDistance.toLocaleString()} km</div>
-          <div className="mt-1 text-xs text-primary">+{dailyAverageDistance.toFixed(1)} km today</div>
+        <div className="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-lg p-4">
+          <div className="text-sm text-neutral-700 dark:text-white mb-1">Distance Covered</div>
+          <div className="text-xl font-bold text-primary dark:text-white">{totalDistance.toLocaleString()} km</div>
+          <div className="mt-1 text-xs text-primary font-medium">+{dailyAverageDistance.toFixed(1)} km today</div>
+        </div>
+        <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 dark:from-secondary/20 dark:to-secondary/10 rounded-lg p-4">
+          <div className="text-sm text-neutral-700 dark:text-white mb-1">Remaining</div>
+          <div className="text-xl font-bold text-secondary dark:text-white">{distanceRemaining.toLocaleString()} km</div>
+          <div className="mt-1 text-xs text-secondary font-medium">Approx. {daysRemaining} days left</div>
+        </div>
+        <div className="bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/20 dark:to-accent/10 rounded-lg p-4">
+          <div className="text-sm text-neutral-700 dark:text-white mb-1">Daily Average</div>
+          <div className="text-xl font-bold text-accent dark:text-white">{dailyAverageDistance.toFixed(1)} km</div>
+          <div className="mt-1 text-xs text-accent font-medium">{dailyAverageSteps.toLocaleString()} steps</div>
         </div>
         <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Remaining</div>
-          <div className="text-xl font-bold text-neutral-800 dark:text-white">{distanceRemaining.toLocaleString()} km</div>
-          <div className="mt-1 text-xs text-secondary">Approx. {daysRemaining} days left</div>
-        </div>
-        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Daily Average</div>
-          <div className="text-xl font-bold text-neutral-800 dark:text-white">{dailyAverageDistance.toFixed(1)} km</div>
-          <div className="mt-1 text-xs text-accent">{dailyAverageSteps.toLocaleString()} steps</div>
-        </div>
-        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Completion</div>
+          <div className="text-sm text-neutral-700 dark:text-white mb-1">Completion</div>
           <div className="text-xl font-bold text-neutral-800 dark:text-white">{completionPercentage}%</div>
           <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-300">Target: {targetDistance.toLocaleString()} km</div>
         </div>
@@ -88,7 +96,7 @@ const TeamProgress: FC<TeamProgressProps> = ({
           <div className="flex mb-2 items-center justify-between">
             <div>
               <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-primary/10">
-                Progress
+                Team Progress
               </span>
             </div>
             <div className="text-right">
@@ -97,10 +105,10 @@ const TeamProgress: FC<TeamProgressProps> = ({
               </span>
             </div>
           </div>
-          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-neutral-200 dark:bg-gray-700">
+          <div className="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-neutral-200 dark:bg-gray-700">
             <div 
               style={{ width: `${completionPercentage}%` }}
-              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-primary to-secondary"
+              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-primary to-secondary rounded-full"
             ></div>
           </div>
         </div>
