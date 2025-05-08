@@ -29,8 +29,8 @@ const Dashboard = () => {
   
   // Fetch challenge details
   const { data: challengeDetailsData, isLoading: isLoadingDetails } = useQuery({
-    queryKey: ['/api/challenges', activeChallenge?.id],
-    enabled: !!activeChallenge?.id,
+    queryKey: [`/api/challenges/${activeChallenge?.id || 1}`],
+    enabled: true,
   });
   
   // Fetch user's step data
@@ -39,22 +39,26 @@ const Dashboard = () => {
     enabled: !!(userData?.user?.id && activeChallenge?.id),
   });
   
+  console.log('userData:', userData);
+  console.log('challengesData:', challengesData);
+  console.log('activeChallenge:', activeChallenge);
+  
   // Fetch leaderboard
   const { data: leaderboardData, isLoading: isLoadingLeaderboard } = useQuery({
-    queryKey: ['/api/leaderboard', activeChallenge?.id],
-    enabled: !!activeChallenge?.id,
+    queryKey: [`/api/leaderboard/${activeChallenge?.id || 1}`],
+    enabled: true,
   });
   
   // Fetch upcoming landmarks
   const { data: landmarksData, isLoading: isLoadingLandmarks } = useQuery({
-    queryKey: ['/api/landmarks', activeChallenge?.id, 'upcoming'],
-    enabled: !!activeChallenge?.id,
+    queryKey: [`/api/landmarks/${activeChallenge?.id || 1}/upcoming`],
+    enabled: true,
   });
   
   // Fetch recent activities
   const { data: activitiesData, isLoading: isLoadingActivities } = useQuery({
-    queryKey: ['/api/activities', activeChallenge?.id],
-    enabled: !!activeChallenge?.id,
+    queryKey: [`/api/activities/${activeChallenge?.id || 1}`],
+    enabled: true,
   });
   
   // Handle period change
