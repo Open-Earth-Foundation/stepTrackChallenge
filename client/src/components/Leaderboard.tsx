@@ -93,11 +93,15 @@ const Leaderboard: FC<LeaderboardProps> = ({ leaderboard, upcomingLandmarks, cur
         
         <div className="space-y-4">
           {upcomingLandmarks.map(landmark => (
-            <div key={landmark.id} className="relative rounded-lg overflow-hidden">
+            <div key={landmark.id} className="relative rounded-lg overflow-hidden cursor-pointer">
               <img 
                 src={landmark.imageUrl} 
                 alt={landmark.name} 
                 className="w-full h-40 object-cover" 
+                onError={(e) => {
+                  // Fallback if image fails to load
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1608576156196-aad17c2f4bef?q=80&w=1470";
+                }}
               />
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
                 <div className="text-white font-bold">{landmark.name}</div>

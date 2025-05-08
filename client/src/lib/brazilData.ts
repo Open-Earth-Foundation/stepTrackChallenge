@@ -52,14 +52,14 @@ export const brazilLandmarks: BrazilLandmark[] = [
     name: "Recife",
     description: "The Brazilian Venice",
     distanceFromStart: 1350,
-    imageUrl: "https://images.unsplash.com/photo-1623968986400-48c1fe76b714?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1588262716317-c78ef3eb4614?q=80&w=1470"
   },
   {
     id: 7,
     name: "Salvador",
     description: "First colonial capital of Brazil",
     distanceFromStart: 1550,
-    imageUrl: "https://images.unsplash.com/photo-1548823142-b521d8e0fe91?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1599933190257-ade62d308472?q=80&w=1470"
   },
   {
     id: 8,
