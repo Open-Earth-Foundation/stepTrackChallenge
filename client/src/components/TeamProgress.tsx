@@ -63,8 +63,8 @@ const TeamProgress: FC<TeamProgressProps> = ({
       {/* Progress Map of Brazil */}
       <div className="map-container mb-6 border border-secondary/20 rounded-xl overflow-hidden">
         <img 
-          src={brazilCountryWebp}
-          alt="Map of Brazil with team progress journey" 
+          src={brazilMapSvg}
+          alt="Map of Brazil coastline with team progress" 
           className="w-full h-auto rounded-xl" 
         />
       </div>
