@@ -1,5 +1,6 @@
 import { FC } from "react";
 import brazilMapSvg from "../assets/branding/brazil-map.svg";
+import brazilWebSvg from "../assets/branding/brazil-web.svg";
 import earthImageSvg from "../assets/branding/earth-image.svg";
 
 interface Landmark {
@@ -60,8 +61,8 @@ const TeamProgress: FC<TeamProgressProps> = ({
       {/* Progress Map of Brazil */}
       <div className="map-container mb-6 border border-secondary/20 rounded-xl overflow-hidden">
         <img 
-          src={brazilMapSvg}
-          alt="Map of Brazil coastline with team progress" 
+          src={brazilWebSvg}
+          alt="Map of Brazil with team progress journey" 
           className="w-full h-auto rounded-xl" 
         />
       </div>
