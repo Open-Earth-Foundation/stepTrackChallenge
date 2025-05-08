@@ -300,7 +300,7 @@ export class MemStorage implements IStorage {
     
     // Create Brazil challenge
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 18);
+    endDate.setDate(endDate.getDate() + 30); // Set to 30 days
     
     const challenge = await this.createChallenge({
       name: 'Brazil Steps Challenge',

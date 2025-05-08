@@ -95,7 +95,7 @@ const TeamProgress: FC<TeamProgressProps> = ({
                       path="M260,130 C270,160 280,190 290,220 C300,250 310,280 320,310 C330,340 340,370 350,400 C360,430 370,460 380,490 C390,520 400,550 410,580 C420,610 430,640 440,670 C450,700 460,730 470,700"
                       dur="8s"
                       repeatCount="indefinite"
-                      keyPoints={[0, completionPercentage / 100]}
+                      keyPoints="0;1"
                       keyTimes="0;1"
                       calcMode="linear"
                     />
