@@ -15,10 +15,9 @@
     </g>
     
     <!-- Text -->
-    <text x="55" y="35" font-family="Open Sans, sans-serif" font-size="24" font-weight="bold" fill="#001EA7">Step</text>
-    <text x="117" y="35" font-family="Open Sans, sans-serif" font-size="24" font-weight="bold" fill="#2351DC">Together</text>
+    <text x="60" y="35" font-family="Open Sans, sans-serif" font-size="24" font-weight="bold" fill="#001EA7">Step<tspan fill="#2351DC">Together</tspan></text>
     
     <!-- Tagline -->
-    <text x="60" y="50" font-family="Open Sans, sans-serif" font-size="12" fill="#24BE00">Journey across Brazil</text>
+    <text x="60" y="50" font-family="Open Sans, sans-serif" font-size="12" fill="#24BE00">Our Journey across Brazil</text>
   </g>
 </svg>
