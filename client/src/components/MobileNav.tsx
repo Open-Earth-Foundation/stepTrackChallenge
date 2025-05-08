@@ -16,7 +16,7 @@ const MobileNav: FC = () => {
           </a>
         </Link>
         
-        <Link href="/challenges">
+        <Link href="/">
           <a className="flex flex-col items-center">
             <div className={`w-10 h-10 flex items-center justify-center rounded-full ${location === "/challenges" ? "text-primary" : "text-neutral-500"}`}>
               <i className="ri-trophy-line text-xl"></i>
@@ -25,7 +25,7 @@ const MobileNav: FC = () => {
           </a>
         </Link>
         
-        <Link href="/steps">
+        <Link href="/">
           <a className="flex flex-col items-center">
             <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary text-white -mt-8 shadow-lg">
               <i className="ri-footprint-line text-2xl"></i>
@@ -34,7 +34,7 @@ const MobileNav: FC = () => {
           </a>
         </Link>
         
-        <Link href="/team">
+        <Link href="/">
           <a className="flex flex-col items-center">
             <div className={`w-10 h-10 flex items-center justify-center rounded-full ${location === "/team" ? "text-primary" : "text-neutral-500"}`}>
               <i className="ri-team-line text-xl"></i>
@@ -43,7 +43,7 @@ const MobileNav: FC = () => {
           </a>
         </Link>
         
-        <Link href="/profile">
+        <Link href="/">
           <a className="flex flex-col items-center">
             <div className={`w-10 h-10 flex items-center justify-center rounded-full ${location === "/profile" ? "text-primary" : "text-neutral-500"}`}>
               <i className="ri-user-line text-xl"></i>

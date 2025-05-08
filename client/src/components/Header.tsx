@@ -29,13 +29,13 @@ const Header: FC<HeaderProps> = ({ user }) => {
           <Link href="/">
             <a className="text-primary hover:text-primary/80 transition-colors font-medium">Dashboard</a>
           </Link>
-          <Link href="/challenges">
+          <Link href="/">
             <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Challenges</a>
           </Link>
-          <Link href="/team">
+          <Link href="/">
             <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Team</a>
           </Link>
-          <Link href="/achievements">
+          <Link href="/">
             <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Achievements</a>
           </Link>
         </div>
