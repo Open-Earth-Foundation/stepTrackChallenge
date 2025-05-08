@@ -52,22 +52,87 @@ const TeamProgress: FC<TeamProgressProps> = ({
         </div>
       </div>
       
-      {/* Earth Image Banner */}
-      <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2">
+      {/* Brazil Map with Progress */}
+      <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2 relative">
         <img 
           src={brazilNewMap}
           alt="Map of Brazil showing relief features" 
           className="w-full h-auto rounded-xl" 
         />
-      </div>
-      
-      {/* Progress Map of Brazil */}
-      <div className="map-container mb-6 border border-secondary/20 rounded-xl overflow-hidden">
-        <img 
-          src={brazilCountrySvg}
-          alt="Map of Brazil with team progress journey" 
-          className="w-full h-auto rounded-xl" 
-        />
+        
+        {/* Progress Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative w-full h-full">
+            {/* Progress Path - A curved line simulating the journey path */}
+            <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+              <defs>
+                <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#2351DC" />
+                  <stop offset="100%" stopColor="#24BE00" />
+                </linearGradient>
+              </defs>
+              
+              {/* SVG path that approximates a journey down Brazil 
+                  Adjusted to better follow the country's shape */}
+              <path
+                d="M 150,80 C 160,150 120,190 145,230 C 170,270 150,320 120,370"
+                stroke="url(#journeyGradient)"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+                strokeDasharray="1000"
+                strokeDashoffset={1000 - (completionPercentage * 10)}
+                style={{ filter: 'drop-shadow(0 0 3px rgba(36, 190, 0, 0.5))' }}
+              />
+              
+              {/* Small circle markers for major cities/landmarks */}
+              <circle cx="150" cy="80" r="5" fill="#2351DC" />
+              <circle cx="145" cy="230" r="5" fill="#2351DC" />
+              <circle cx="120" cy="370" r="5" fill="#24BE00" />
+            </svg>
+            
+            {/* Current Position Indicator - Now follows the path more accurately */}
+            {completionPercentage > 0 && completionPercentage < 100 && (
+              <div 
+                className="absolute w-6 h-6 bg-accent border-2 border-white rounded-full shadow-lg animate-pulse z-20"
+                style={{ 
+                  // Position calculation based on path segments with bezier curve approximation
+                  left: `${
+                    completionPercentage < 33 ? 
+                      // First segment (north)
+                      150 + (completionPercentage/33) * (160-150)
+                      : completionPercentage < 66 ? 
+                      // Middle segment (central)
+                      160 - ((completionPercentage-33)/33) * (160-120) + ((completionPercentage-33)/33) * ((145-120)/2)
+                      : 
+                      // Final segment (south)
+                      145 - ((completionPercentage-66)/34) * (145-120)
+                  }px`,
+                  top: `${
+                    completionPercentage < 33 ? 
+                      // First segment
+                      80 + (completionPercentage/33) * (150-80)
+                      : completionPercentage < 66 ? 
+                      // Middle segment
+                      150 + ((completionPercentage-33)/33) * (230-150)
+                      : 
+                      // Final segment
+                      230 + ((completionPercentage-66)/34) * (370-230)
+                  }px`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              >
+                {/* Inner pulse effect */}
+                <span className="absolute inset-0 rounded-full bg-white/40 animate-ping"></span>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Progress Percentage Overlay */}
+        <div className="absolute top-3 right-3 bg-white/80 dark:bg-black/60 rounded-full px-2 py-1 text-xs font-bold text-primary">
+          {completionPercentage}% Complete
+        </div>
       </div>
       
       {/* Stats Grid */}
