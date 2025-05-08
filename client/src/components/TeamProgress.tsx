@@ -3,6 +3,7 @@ import brazilMapSvg from "../assets/branding/brazil-map.svg";
 import brazilWebSvg from "../assets/branding/brazil-web.svg";
 import brazilCountrySvg from "../assets/branding/brazil-country.svg";
 import brazilFullMap from "../assets/branding/brazil-full-map.png";
+import brazilNewMap from "../assets/branding/brazil-new-map.webp";
 import earthImageSvg from "../assets/branding/earth-image.svg";
 
 interface Landmark {
@@ -54,8 +55,8 @@ const TeamProgress: FC<TeamProgressProps> = ({
       {/* Earth Image Banner */}
       <div className="mb-6 rounded-xl overflow-hidden bg-gradient-to-r from-primary/5 to-secondary/5 p-2">
         <img 
-          src={earthImageSvg}
-          alt="Earth with Brazil highlighted" 
+          src={brazilNewMap}
+          alt="Map of Brazil showing relief features" 
           className="w-full h-auto rounded-xl" 
         />
       </div>
