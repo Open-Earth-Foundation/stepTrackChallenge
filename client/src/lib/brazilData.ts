@@ -52,14 +52,14 @@ export const brazilLandmarks: BrazilLandmark[] = [
     name: "Recife",
     description: "The Brazilian Venice",
     distanceFromStart: 1350,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Praia_de_Boa_Viagem_-_Recife.jpg/1200px-Praia_de_Boa_Viagem_-_Recife.jpg"
+    imageUrl: "/src/assets/landmarks/recife.jpg"
   },
   {
     id: 7,
     name: "Salvador",
     description: "First colonial capital of Brazil",
     distanceFromStart: 1550,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Salvador_-_Pelourinho_-_panoramio.jpg/1200px-Salvador_-_Pelourinho_-_panoramio.jpg"
+    imageUrl: "/src/assets/landmarks/salvador.jpg"
   },
   {
     id: 8,
