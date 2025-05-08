@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="landGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#24BE00;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#008600;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#001EA7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2351DC;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#F8F9FA" />
+  
+  <!-- Brazil outline - more detailed country shape -->
+  <path d="M320,100 C330,90 350,85 370,90 C390,95 410,90 430,100 
+           C450,110 470,130 480,150 C490,170 500,200 510,230 
+           C520,260 530,290 535,320 C540,350 540,380 530,410 
+           C520,440 500,460 470,470 C440,480 410,485 380,475 
+           C350,465 330,450 315,430 C300,410 290,390 280,370 
+           C270,350 260,330 250,310 C240,290 235,270 240,250 
+           C245,230 255,210 270,195 C285,180 300,170 320,165 
+           C340,160 360,150 350,120 C340,90 310,110 320,100 Z" 
+           fill="url(#landGradient)" 
+           stroke="#FFFFFF" 
+           stroke-width="2" 
+           filter="url(#dropShadow)" />
+  
+  <!-- Journey Path across Brazil - covering major areas -->
+  <path d="M380,120 C390,140 400,165 410,190 C420,215 425,240 430,265 
+           C435,290 440,315 445,340 C450,365 455,390 460,415"
+        fill="none" 
+        stroke="url(#routeGradient)" 
+        stroke-width="5" 
+        stroke-linecap="round" 
+        stroke-dasharray="1, 0" />
+  
+  <!-- Progress indicator (Rio location) -->
+  <circle cx="430" cy="265" r="8" fill="#FFFFFF" stroke="#001EA7" stroke-width="3" />
+  
+  <!-- Major Cities/Landmarks -->
+  <g id="cities">
+    <!-- Manaus (Amazon) -->
+    <circle cx="380" cy="120" r="5" fill="#FFFFFF" stroke="#001EA7" stroke-width="2" />
+    <text x="390" y="115" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Manaus</text>
+    
+    <!-- Brasília (Capital) -->
+    <circle cx="410" cy="190" r="5" fill="#FFFFFF" stroke="#001EA7" stroke-width="2" />
+    <text x="420" y="185" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Brasília</text>
+    
+    <!-- Rio de Janeiro (Current) -->
+    <circle cx="430" cy="265" r="5" fill="#FFFFFF" stroke="#24BE00" stroke-width="2" />
+    <text x="440" y="260" font-family="Open Sans, sans-serif" font-size="12" font-weight="bold" fill="#008600">Rio de Janeiro</text>
+    
+    <!-- São Paulo -->
+    <circle cx="445" cy="340" r="5" fill="#FFFFFF" stroke="#001EA7" stroke-width="2" />
+    <text x="455" y="335" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">São Paulo</text>
+    
+    <!-- Porto Alegre -->
+    <circle cx="460" cy="415" r="5" fill="#FFFFFF" stroke="#001EA7" stroke-width="2" />
+    <text x="470" y="410" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Porto Alegre</text>
+  </g>
+  
+  <!-- Brazil Regions - subtle outlines -->
+  <path d="M380,120 C370,150 360,180 370,210 C380,240 350,260 330,270" 
+        fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.7" />
+  <path d="M410,190 C380,210 370,240 390,260" 
+        fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.7" />
+  <path d="M430,265 C400,280 390,310 410,330" 
+        fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.7" />
+  
+  <!-- Amazon River representation -->
+  <path d="M280,120 C300,130 320,125 340,120 C360,115 380,120 400,130" 
+        fill="none" stroke="#2351DC" stroke-width="2" stroke-opacity="0.4" />
+  
+  <!-- Legend -->
+  <rect x="590" y="120" width="170" height="150" rx="10" ry="10" fill="white" stroke="#E9ECEF" stroke-width="1" />
+  <text x="675" y="150" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="14" font-weight="bold" fill="#343A40">Brazil Map</text>
+  
+  <!-- Legend items -->
+  <circle cx="610" cy="180" r="5" fill="#FFFFFF" stroke="#001EA7" stroke-width="2" />
+  <text x="625" y="185" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Major City</text>
+  
+  <circle cx="610" cy="210" r="5" fill="#FFFFFF" stroke="#24BE00" stroke-width="2" />
+  <text x="625" y="215" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Current Location</text>
+  
+  <line x1="590" y1="230" x2="610" y2="230" stroke="url(#routeGradient)" stroke-width="3" />
+  <text x="625" y="235" font-family="Open Sans, sans-serif" font-size="12" fill="#343A40">Journey Path</text>
+  
+  <!-- Title and Progress -->
+  <text x="400" y="520" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="18" font-weight="bold" fill="#001EA7">Brazil Steps Challenge</text>
+  <text x="400" y="550" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="14" fill="#2351DC">Our Journey Across Brazil</text>
+</svg>
