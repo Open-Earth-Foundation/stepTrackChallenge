@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <title>Map of Brazil with Journey Route</title>
+  <defs>
+    <linearGradient id="landGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#297545" />
+      <stop offset="50%" stop-color="#3d9654" />
+      <stop offset="100%" stop-color="#2d8046" />
+    </linearGradient>
+    <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2351DC" />
+      <stop offset="100%" stop-color="#24BE00" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Brazil Map Outline -->
+  <path 
+    d="M220,120 C230,140 270,160 280,180 C290,200 300,220 310,240 C320,260 340,270 360,280 C380,290 400,300 420,310 C440,320 460,330 480,340 C500,350 520,370 530,390 C540,410 550,430 560,450 C570,470 580,490 590,510 C600,530 610,550 620,570 C630,590 640,610 630,630 C620,650 600,660 580,670 C560,680 540,690 520,695 C500,700 480,705 460,710 C440,715 420,720 400,725 C380,730 360,725 340,720 C320,715 300,710 280,700 C260,690 240,680 220,670 C200,660 190,640 180,620 C170,600 160,580 150,560 C140,540 130,520 140,500 C150,480 170,470 180,450 C190,430 200,410 210,390 C220,370 210,350 200,330 C190,310, 180,290 170,270 C160,250 150,230 160,210 C170,190 190,180 210,170 C230,160 250,150 260,130 C270,110 210,100 220,120 Z"
+    fill="url(#landGradient)"
+    stroke="#205535"
+    stroke-width="2"
+    filter="url(#dropShadow)"
+  />
+  
+  <!-- Country Border -->
+  <path 
+    d="M220,120 C230,140 270,160 280,180 C290,200 300,220 310,240 C320,260 340,270 360,280 C380,290 400,300 420,310 C440,320 460,330 480,340 C500,350 520,370 530,390 C540,410 550,430 560,450 C570,470 580,490 590,510 C600,530 610,550 620,570 C630,590 640,610 630,630 C620,650 600,660 580,670 C560,680 540,690 520,695 C500,700 480,705 460,710 C440,715 420,720 400,725 C380,730 360,725 340,720 C320,715 300,710 280,700 C260,690 240,680 220,670 C200,660 190,640 180,620 C170,600 160,580 150,560 C140,540 130,520 140,500 C150,480 170,470 180,450 C190,430 200,410 210,390 C220,370 210,350 200,330 C190,310, 180,290 170,270 C160,250 150,230 160,210 C170,190 190,180 210,170 C230,160 250,150 260,130 C270,110 210,100 220,120 Z"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="1"
+    stroke-dasharray="5,3"
+  />
+  
+  <!-- Main Route Path -->
+  <path 
+    d="M260,130 C270,160 280,190 290,220 C300,250 310,280 320,310 C330,340 340,370 350,400 C360,430 370,460 380,490 C390,520 400,550 410,580 C420,610 430,640 440,670 C450,700 460,730 470,700"
+    fill="none"
+    stroke="url(#routeGradient)"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-dasharray="2000"
+    stroke-dashoffset="0"
+  />
+  
+  <!-- Major Cities -->
+  <!-- Oiapoque (North) -->
+  <circle cx="260" cy="130" r="6" fill="#2351DC" />
+  <text x="250" y="115" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Oiapoque</text>
+  
+  <!-- Belém -->
+  <circle cx="285" cy="200" r="6" fill="#2351DC" />
+  <text x="295" y="200" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Belém</text>
+  
+  <!-- Fortaleza -->
+  <circle cx="325" cy="280" r="6" fill="#2351DC" />
+  <text x="335" y="280" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Fortaleza</text>
+  
+  <!-- Recife -->
+  <circle cx="365" cy="360" r="6" fill="#2351DC" />
+  <text x="375" y="360" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Recife</text>
+  
+  <!-- Salvador -->
+  <circle cx="400" cy="440" r="6" fill="#2351DC" />
+  <text x="410" y="440" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Salvador</text>
+  
+  <!-- Rio de Janeiro -->
+  <circle cx="435" cy="560" r="6" fill="#2351DC" />
+  <text x="445" y="560" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Rio</text>
+  
+  <!-- São Paulo -->
+  <circle cx="420" cy="600" r="6" fill="#2351DC" />
+  <text x="430" y="600" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">São Paulo</text>
+  
+  <!-- Porto Alegre -->
+  <circle cx="470" cy="700" r="6" fill="#24BE00" />
+  <text x="480" y="700" font-family="Arial" font-size="12" fill="white" stroke="black" stroke-width="0.5">Porto Alegre</text>
+  
+  <!-- State Borders (simplified) -->
+  <path d="M300,200 C320,230 340,260 360,290" fill="none" stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,2" />
+  <path d="M360,290 C380,320 400,350 420,380" fill="none" stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,2" />
+  <path d="M420,380 C440,410 460,440 480,470" fill="none" stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,2" />
+  <path d="M480,470 C460,500 440,530 420,560" fill="none" stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,2" />
+  <path d="M420,560 C400,590 380,620 360,650" fill="none" stroke="#ffffff" stroke-width="0.5" stroke-dasharray="3,2" />
+  
+  <!-- Amazon River (simplified) -->
+  <path d="M180,200 C220,210 260,220 300,230" fill="none" stroke="#4a90e2" stroke-width="2" />
+  
+  <!-- Atlantic Ocean Label -->
+  <text x="600" y="400" font-family="Arial" font-size="16" fill="#4a90e2" transform="rotate(90 600,400)">Atlantic Ocean</text>
+  
+  <!-- Compass -->
+  <circle cx="720" cy="80" r="20" fill="white" fill-opacity="0.7" stroke="#333" />
+  <path d="M720,60 L720,100 M700,80 L740,80" stroke="#333" stroke-width="1" />
+  <text x="717" y="70" font-family="Arial" font-size="10" text-anchor="middle">N</text>
+  <text x="717" y="95" font-family="Arial" font-size="10" text-anchor="middle">S</text>
+  <text x="705" y="83" font-family="Arial" font-size="10" text-anchor="middle">W</text>
+  <text x="735" y="83" font-family="Arial" font-size="10" text-anchor="middle">E</text>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Our Journey Across Brazil</text>
+</svg>
