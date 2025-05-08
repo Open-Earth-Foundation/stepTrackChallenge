@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { Link } from "wouter";
+import logoSvg from "../assets/branding/logo-placeholder.svg";
+import { useTheme } from "@/components/ui/theme-provider";
 
 interface HeaderProps {
   user: {
@@ -10,12 +12,18 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ user }) => {
+  const { theme, setTheme } = useTheme();
+  
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+  
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm dark:bg-gray-900">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <i className="ri-footprint-line text-primary text-2xl mr-2"></i>
-          <h1 className="text-xl font-heading font-bold text-neutral-800">StepTogether</h1>
+          <img src={logoSvg} alt="StepTogether Logo" className="h-8 mr-2" />
+          <h1 className="text-xl font-heading font-bold text-neutral-800 dark:text-white">StepTogether</h1>
         </div>
         
         <div className="hidden md:flex items-center space-x-6">
@@ -23,19 +31,29 @@ const Header: FC<HeaderProps> = ({ user }) => {
             <a className="text-primary hover:text-primary/80 transition-colors">Dashboard</a>
           </Link>
           <Link href="/challenges">
-            <a className="text-neutral-500 hover:text-primary transition-colors">Challenges</a>
+            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Challenges</a>
           </Link>
           <Link href="/team">
-            <a className="text-neutral-500 hover:text-primary transition-colors">Team</a>
+            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Team</a>
           </Link>
           <Link href="/achievements">
-            <a className="text-neutral-500 hover:text-primary transition-colors">Achievements</a>
+            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Achievements</a>
           </Link>
         </div>
         
         <div className="flex items-center">
+          <button 
+            onClick={toggleTheme} 
+            className="mr-3 text-neutral-500 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors"
+          >
+            {theme === "light" ? (
+              <i className="ri-moon-line text-xl"></i>
+            ) : (
+              <i className="ri-sun-line text-xl"></i>
+            )}
+          </button>
           <div className="mr-3 relative">
-            <i className="ri-notification-3-line text-neutral-500 text-xl cursor-pointer"></i>
+            <i className="ri-notification-3-line text-neutral-500 dark:text-neutral-300 text-xl cursor-pointer"></i>
             <div className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</div>
           </div>
           <div 

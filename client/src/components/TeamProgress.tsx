@@ -1,4 +1,5 @@
 import { FC } from "react";
+import brazilMapSvg from "../assets/branding/brazil-map.svg";
 
 interface Landmark {
   id: number;
@@ -37,120 +38,116 @@ const TeamProgress: FC<TeamProgressProps> = ({
   const daysRemaining = Math.ceil(distanceRemaining / dailyAverageDistance);
   
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-heading font-bold text-neutral-800">Team Progress</h3>
-        <div className="bg-neutral-100 rounded-lg p-2 text-sm font-medium text-neutral-800">
+        <h3 className="text-xl font-heading font-bold text-neutral-800 dark:text-white">Team Progress</h3>
+        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-2 text-sm font-medium text-neutral-800 dark:text-white">
           <i className="ri-team-line mr-1 text-primary"></i>
           {totalSteps.toLocaleString()} total steps
         </div>
       </div>
       
       {/* Progress Map of Brazil */}
-      <div className="map-container mb-6">
+      <div className="map-container mb-6 border border-secondary/20 rounded-xl overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=500" 
-          alt="Map of Brazil coastline" 
+          src={brazilMapSvg}
+          alt="Map of Brazil coastline with team progress" 
           className="w-full h-auto rounded-xl" 
         />
         
-        {/* Overlay for progress line */}
-        <div className="absolute top-0 left-0 w-full h-full p-4">
-          <div className="relative w-full h-full">
-            {/* Progress path */}
-            <svg viewBox="0 0 1200 500" className="w-full h-full">
-              <path 
-                d="M100,400 C150,380 200,390 250,370 S350,350 400,330 S500,310 550,300 S650,290 700,280" 
-                fill="none" 
-                stroke="var(--primary)" 
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeDasharray="1200"
-                strokeDashoffset={1200 - (1200 * (completionPercentage / 100))}
-              />
-              {/* Current position marker */}
-              <circle cx="700" cy="280" r="8" fill="var(--primary)" />
-            </svg>
-            
-            {/* Start and end markers */}
-            <div className="absolute top-[400px] left-[100px] bg-primary text-white text-xs font-bold rounded-full px-2 py-1">
-              START
-            </div>
-            <div className="absolute top-[120px] right-[100px] bg-neutral-800 text-white text-xs font-bold rounded-full px-2 py-1">
-              FINISH
-            </div>
-            
-            {/* Progress info box */}
-            <div className="absolute top-[260px] left-[650px] bg-white rounded-lg shadow-lg p-3">
-              <div className="text-sm font-bold text-neutral-800">Current Location:</div>
-              <div className="text-primary font-medium">{currentLandmark.name}</div>
-              <div className="text-xs text-neutral-500">{currentLandmark.distanceCompleted.toLocaleString()} km completed ({completionPercentage}%)</div>
-            </div>
-          </div>
-        </div>
+        {/* Progress indicator overlay - removed as it's now included in the SVG */}
       </div>
       
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-neutral-100 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 mb-1">Distance Covered</div>
-          <div className="text-xl font-bold text-neutral-800">{totalDistance.toLocaleString()} km</div>
-          <div className="mt-1 text-xs text-primary">+{dailyAverageDistance.toFixed(0)} km today</div>
+        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
+          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Distance Covered</div>
+          <div className="text-xl font-bold text-neutral-800 dark:text-white">{totalDistance.toLocaleString()} km</div>
+          <div className="mt-1 text-xs text-primary">+{dailyAverageDistance.toFixed(1)} km today</div>
         </div>
-        <div className="bg-neutral-100 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 mb-1">Remaining</div>
-          <div className="text-xl font-bold text-neutral-800">{distanceRemaining.toLocaleString()} km</div>
+        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
+          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Remaining</div>
+          <div className="text-xl font-bold text-neutral-800 dark:text-white">{distanceRemaining.toLocaleString()} km</div>
           <div className="mt-1 text-xs text-secondary">Approx. {daysRemaining} days left</div>
         </div>
-        <div className="bg-neutral-100 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 mb-1">Daily Average</div>
-          <div className="text-xl font-bold text-neutral-800">{dailyAverageDistance.toFixed(0)} km</div>
+        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
+          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Daily Average</div>
+          <div className="text-xl font-bold text-neutral-800 dark:text-white">{dailyAverageDistance.toFixed(1)} km</div>
           <div className="mt-1 text-xs text-accent">{dailyAverageSteps.toLocaleString()} steps</div>
         </div>
-        <div className="bg-neutral-100 rounded-lg p-4">
-          <div className="text-sm text-neutral-500 mb-1">Completion</div>
-          <div className="text-xl font-bold text-neutral-800">{completionPercentage}%</div>
-          <div className="mt-1 text-xs text-neutral-500">Target: {targetDistance.toLocaleString()} km</div>
+        <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
+          <div className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Completion</div>
+          <div className="text-xl font-bold text-neutral-800 dark:text-white">{completionPercentage}%</div>
+          <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-300">Target: {targetDistance.toLocaleString()} km</div>
         </div>
       </div>
       
       {/* Progress Bar */}
       <div className="mb-6">
-        <div className="w-full bg-neutral-200 rounded-full h-4">
-          <div 
-            className="bg-primary rounded-full h-4" 
-            style={{ width: `${completionPercentage}%` }}
-          ></div>
+        <div className="relative pt-1">
+          <div className="flex mb-2 items-center justify-between">
+            <div>
+              <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-primary/10">
+                Progress
+              </span>
+            </div>
+            <div className="text-right">
+              <span className="text-xs font-semibold inline-block text-primary">
+                {completionPercentage}%
+              </span>
+            </div>
+          </div>
+          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-neutral-200 dark:bg-gray-700">
+            <div 
+              style={{ width: `${completionPercentage}%` }}
+              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-primary to-secondary"
+            ></div>
+          </div>
         </div>
       </div>
       
-      {/* Milestone Markers */}
-      <div className="relative pt-8">
-        <div className="absolute top-0 left-0 w-full flex justify-between px-2">
+      {/* Landmark Timeline */}
+      <div className="relative">
+        <h4 className="text-lg font-semibold mb-4 text-neutral-800 dark:text-white">Journey Landmarks</h4>
+        <div className="border-l-2 border-primary/30 ml-3">
           {landmarks.map((landmark, index) => {
             const isCompleted = landmark.distanceFromStart <= totalDistance;
-            const isCurrent = index === landmarks.findIndex(l => l.distanceFromStart > totalDistance);
+            const isCurrent = index === landmarks.findIndex(l => l.distanceFromStart > totalDistance) - 1 || 
+                             (landmarks.findIndex(l => l.distanceFromStart > totalDistance) === -1 && index === landmarks.length - 1);
             
             return (
-              <div key={landmark.id} className="flex flex-col items-center">
+              <div key={landmark.id} className="mb-6 ml-6 relative">
                 <div 
-                  className={`w-4 h-4 rounded-full mb-1 ${
+                  className={`absolute -left-8 mt-1.5 w-4 h-4 rounded-full border-2 border-white dark:border-gray-800 ${
                     isCompleted 
-                      ? 'bg-success' 
+                      ? 'bg-accent' 
                       : isCurrent 
-                        ? 'bg-primary' 
-                        : 'bg-neutral-300'
+                        ? 'bg-primary animate-pulse' 
+                        : 'bg-neutral-300 dark:bg-gray-600'
                   }`}
                 ></div>
-                <span 
-                  className={`text-xs ${
-                    isCurrent 
-                      ? 'font-medium text-primary' 
-                      : 'text-neutral-500'
-                  }`}
+                <div className={`${
+                  isCurrent 
+                    ? 'bg-primary/10 border-primary/20' 
+                    : isCompleted
+                      ? 'bg-accent/10 border-accent/20'
+                      : 'bg-neutral-100 dark:bg-gray-700 border-neutral-200 dark:border-gray-600'
+                  } p-3 rounded-lg border`}
                 >
-                  {landmark.name}
-                </span>
+                  <p className={`text-sm font-medium ${
+                    isCurrent 
+                      ? 'text-primary' 
+                      : isCompleted
+                        ? 'text-accent'
+                        : 'text-neutral-800 dark:text-white'
+                  }`}>
+                    {landmark.name}
+                  </p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    {landmark.distanceFromStart} km from start
+                    {isCurrent && " (Current Location)"}
+                  </p>
+                </div>
               </div>
             );
           })}

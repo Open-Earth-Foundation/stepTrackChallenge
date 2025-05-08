@@ -73,12 +73,12 @@ const Dashboard = () => {
     isLoadingActivities;
   
   // If data is still loading, show a simple loading state
-  if (isLoading) {
+  if (isLoading || !userData || !challengeDetailsData || !stepsData || !leaderboardData || !landmarksData || !activitiesData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
         <div className="text-xl text-center text-primary">
           <i className="ri-loader-4-line animate-spin text-4xl mb-4 block"></i>
-          Loading...
+          Loading your fitness journey...
         </div>
       </div>
     );
@@ -87,9 +87,9 @@ const Dashboard = () => {
   // If we have all the data, render the dashboard
   const user = userData.user;
   const challenge = challengeDetailsData.challenge;
-  const participants = challengeDetailsData.participants;
-  const stats = challengeDetailsData.stats;
-  const landmarks = challengeDetailsData.landmarks;
+  const participants = challengeDetailsData.participants || [];
+  const stats = challengeDetailsData.stats || { totalSteps: 0, totalDistance: 0, completionPercentage: 0 };
+  const landmarks = challengeDetailsData.landmarks || [];
   
   return (
     <div className="min-h-screen flex flex-col">

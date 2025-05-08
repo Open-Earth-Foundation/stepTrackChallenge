@@ -1,0 +1,69 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .map-bg { fill: #E6F4FF; }
+    .brazil { fill: #FFFFFF; stroke: #2351DC; stroke-width: 2; }
+    .route { fill: none; stroke: #001EA7; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1200; stroke-dashoffset: 0; }
+    .landmark { fill: #24BE00; stroke: white; stroke-width: 2; }
+    .landmark-current { fill: #008600; stroke: white; stroke-width: 2; }
+    .landmark-text { font-family: 'Open Sans', sans-serif; font-size: 12px; fill: #333; font-weight: bold; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="800" height="600" class="map-bg" rx="10" ry="10" />
+  
+  <!-- Simplified Brazil Map Outline -->
+  <path class="brazil" d="M250,100 C300,110 350,130 400,120 C450,110 490,130 530,160 C570,190 590,240 600,290 C610,340 590,390 570,430 C550,470 520,490 480,500 C440,510 400,500 360,480 C320,460 290,430 270,400 C250,370 240,340 230,310 C220,280 210,250 210,220 C210,190 220,160 230,130 C240,100 230,100 250,100 Z" />
+  
+  <!-- Coastal Route -->
+  <path class="route" d="M220,160 C240,180 260,200 280,210 C300,220 320,220 340,230 C360,240 380,260 400,270 C420,280 440,290 460,300 C480,310 500,320 520,340 C540,360 550,380 560,400 C570,420 580,440 580,460 C580,480 570,500 560,520" />
+  
+  <!-- Landmarks -->
+  <g>
+    <!-- Northernmost point - Start -->
+    <circle cx="220" cy="160" r="8" class="landmark" />
+    <text x="235" y="160" class="landmark-text">Oiapoque</text>
+    
+    <!-- Second landmark -->
+    <circle cx="280" cy="210" r="8" class="landmark" />
+    <text x="295" y="210" class="landmark-text">Belém</text>
+    
+    <!-- Third landmark -->
+    <circle cx="340" cy="230" r="8" class="landmark" />
+    <text x="355" y="230" class="landmark-text">São Luís</text>
+    
+    <!-- Fourth landmark -->
+    <circle cx="400" cy="270" r="8" class="landmark" />
+    <text x="415" y="270" class="landmark-text">Fortaleza</text>
+    
+    <!-- Fifth landmark -->
+    <circle cx="460" cy="300" r="8" class="landmark-current" />
+    <text x="475" y="300" class="landmark-text">Recife</text>
+    
+    <!-- Sixth landmark -->
+    <circle cx="520" cy="340" r="8" class="landmark" />
+    <text x="535" y="340" class="landmark-text">Salvador</text>
+    
+    <!-- Seventh landmark -->
+    <circle cx="560" cy="400" r="8" class="landmark" />
+    <text x="575" y="400" class="landmark-text">Rio de Janeiro</text>
+    
+    <!-- Eighth landmark - End -->
+    <circle cx="560" cy="520" r="8" class="landmark" />
+    <text x="575" y="520" class="landmark-text">Porto Alegre</text>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(600, 100)">
+    <rect width="180" height="120" fill="white" stroke="#2351DC" stroke-width="1" rx="5" ry="5" />
+    <text x="10" y="30" font-family="Open Sans" font-weight="bold" fill="#001EA7">Legend</text>
+    
+    <circle cx="20" cy="50" r="6" class="landmark" />
+    <text x="35" y="55" font-family="Open Sans" fill="#333" font-size="12">Passed landmark</text>
+    
+    <circle cx="20" cy="75" r="6" class="landmark-current" />
+    <text x="35" y="80" font-family="Open Sans" fill="#333" font-size="12">Current position</text>
+    
+    <line x1="15" y1="95" x2="25" y2="95" stroke="#001EA7" stroke-width="3" />
+    <text x="35" y="100" font-family="Open Sans" fill="#333" font-size="12">Team route</text>
+  </g>
+</svg>
