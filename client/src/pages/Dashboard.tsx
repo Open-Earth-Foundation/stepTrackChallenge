@@ -35,8 +35,8 @@ const Dashboard = () => {
   
   // Fetch user's step data
   const { data: stepsData, isLoading: isLoadingSteps } = useQuery({
-    queryKey: ['/api/steps', userData?.user?.id, activeChallenge?.id, period],
-    enabled: !!(userData?.user?.id && activeChallenge?.id),
+    queryKey: [`/api/steps/${userData?.user?.id || 1}/${activeChallenge?.id || 1}/${period}`],
+    enabled: true,
   });
   
   console.log('userData:', userData);
@@ -77,7 +77,7 @@ const Dashboard = () => {
     isLoadingActivities;
   
   // If data is still loading, show a simple loading state
-  if (isLoading || !userData || !challengeDetailsData || !stepsData || !leaderboardData || !landmarksData || !activitiesData) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
         <div className="text-xl text-center text-primary">
@@ -88,12 +88,32 @@ const Dashboard = () => {
     );
   }
   
-  // If we have all the data, render the dashboard
+  // If we don't have the required data, show error state
+  if (!userData || !challengeDetailsData) {
+    console.error("Missing required data:", { userData, challengeDetailsData });
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+        <div className="text-xl text-center text-destructive">
+          <i className="ri-error-warning-line text-4xl mb-4 block"></i>
+          Could not load challenge data. Please try again.
+        </div>
+      </div>
+    );
+  }
+  
+  // Get all necessary data, using safe defaults if needed
   const user = userData.user;
   const challenge = challengeDetailsData.challenge;
   const participants = challengeDetailsData.participants || [];
   const stats = challengeDetailsData.stats || { totalSteps: 0, totalDistance: 0, completionPercentage: 0 };
   const landmarks = challengeDetailsData.landmarks || [];
+  
+  // Add extra safety checks for other data
+  const entries = stepsData?.entries || [];
+  const stepStats = stepsData?.stats || { totalSteps: 0, distanceKm: 0, yesterdaySteps: 0, changeFromYesterday: 0, contributionPercentage: 0, teamPosition: 1 };
+  const leaderboardEntries = leaderboardData?.leaderboard || [];
+  const upcomingLandmarks = landmarksData?.landmarks || [];
+  const recentActivities = activitiesData?.activities || [];
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -112,8 +132,8 @@ const Dashboard = () => {
           />
           
           <IndividualStats 
-            entries={stepsData.entries} 
-            stats={stepsData.stats} 
+            entries={entries} 
+            stats={stepStats} 
             period={period} 
           />
           
@@ -131,13 +151,13 @@ const Dashboard = () => {
           />
           
           <Leaderboard 
-            leaderboard={leaderboardData.leaderboard}
-            upcomingLandmarks={landmarksData.landmarks}
+            leaderboard={leaderboardEntries}
+            upcomingLandmarks={upcomingLandmarks}
             currentUserId={user.id}
           />
           
           <RecentActivities 
-            activities={activitiesData.activities} 
+            activities={recentActivities} 
           />
         </div>
       </main>
