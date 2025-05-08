@@ -303,8 +303,8 @@ export class MemStorage implements IStorage {
     endDate.setDate(endDate.getDate() + 18);
     
     const challenge = await this.createChallenge({
-      name: 'Brazil Coast Challenge',
-      description: "Step across Brazil's beautiful coastline with your team!",
+      name: 'Brazil Steps Challenge',
+      description: "Step across Brazil's beautiful country with your team!",
       startDate: new Date(),
       endDate: endDate,
       targetDistance: 2900,

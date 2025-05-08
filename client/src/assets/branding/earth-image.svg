@@ -36,6 +36,6 @@
   <circle cx="390" cy="225" r="6" fill="#ffffff" stroke="#001EA7" stroke-width="2" />
   
   <!-- Text Labels -->
-  <text x="390" y="350" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="16" font-weight="bold" fill="#001EA7">Brazil Coast Challenge</text>
+  <text x="390" y="350" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="16" font-weight="bold" fill="#001EA7">Brazil Steps Challenge</text>
   <text x="390" y="375" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="14" fill="#2351DC">Our Journey Across Brazil</text>
 </svg>
