@@ -161,11 +161,12 @@ const Dashboard = () => {
             participants={participants}
           />
 
+
+          <StepEntryForm />
           <PeriodSelector
             period={period}
             onChange={handlePeriodChange}
           />
-          <StepEntryForm />
           <IndividualStats
             entries={stepEntries}
             stats={stepStats}

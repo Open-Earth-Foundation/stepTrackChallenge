@@ -124,5 +124,5 @@ export type Activity = typeof activities.$inferSelect;
 export type InsertActivity = z.infer<typeof insertActivitySchema>;
 
 // Additional schemas for API requests/responses
-export const periodSchema = z.enum(["day", "week", "month"]);
+export const periodSchema = z.enum(["week", "month"]);
 export type Period = z.infer<typeof periodSchema>;
