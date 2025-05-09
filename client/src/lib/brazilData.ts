@@ -8,6 +8,7 @@ export interface BrazilLandmark {
   description: string;
   distanceFromStart: number; // km from starting point
   imageUrl: string;
+  coordinates: [number, number]; // [latitude, longitude]
 }
 
 // Starting from the northernmost point and moving south
@@ -17,84 +18,96 @@ export const brazilLandmarks: BrazilLandmark[] = [
     name: "Oiapoque",
     description: "Northernmost point of Brazil",
     distanceFromStart: 0,
-    imageUrl: "https://images.unsplash.com/photo-1551312183-71b11ee884e3?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1551312183-71b11ee884e3?q=80&w=1000",
+    coordinates: [2.0500, -51.0667],
   },
   {
     id: 2,
     name: "Belém",
     description: "Gateway to the Amazon",
     distanceFromStart: 350,
-    imageUrl: "https://images.unsplash.com/photo-1599419238165-5d0a9ccb6206?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1599419238165-5d0a9ccb6206?q=80&w=1000",
+    coordinates: [-1.4558, -48.5044],
   },
   {
     id: 3,
     name: "São Luís",
     description: "UNESCO World Heritage site",
     distanceFromStart: 650,
-    imageUrl: "https://images.unsplash.com/photo-1619546952812-520e98064a52?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1619546952812-520e98064a52?q=80&w=1000",
+    coordinates: [-2.5307, -44.3068],
   },
   {
     id: 4,
     name: "Fortaleza",
     description: "Popular beach destination",
     distanceFromStart: 950,
-    imageUrl: "https://images.unsplash.com/photo-1667925225540-163d6cf5847d?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1667925225540-163d6cf5847d?q=80&w=1000",
+    coordinates: [-3.7172, -38.5431],
   },
   {
     id: 5,
     name: "Natal",
     description: "City of dunes",
     distanceFromStart: 1200,
-    imageUrl: "https://images.unsplash.com/photo-1599594430888-a89a123a225f?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1599594430888-a89a123a225f?q=80&w=1000",
+    coordinates: [-5.7945, -35.2110],
   },
   {
     id: 6,
     name: "Recife",
     description: "The Brazilian Venice",
     distanceFromStart: 1350,
-    imageUrl: "/src/assets/landmarks/recife.jpg"
+    imageUrl: "/src/assets/landmarks/recife.jpg",
+    coordinates: [-8.0476, -34.8770],
   },
   {
     id: 7,
     name: "Salvador",
     description: "First colonial capital of Brazil",
     distanceFromStart: 1550,
-    imageUrl: "/src/assets/landmarks/salvador.jpg"
+    imageUrl: "/src/assets/landmarks/salvador.jpg",
+    coordinates: [-12.9777, -38.5016],
   },
   {
     id: 8,
     name: "Rio de Janeiro",
     description: "Home to Christ the Redeemer statue",
     distanceFromStart: 2050,
-    imageUrl: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1000",
+    coordinates: [-22.9068, -43.1729],
   },
   {
     id: 9,
     name: "São Paulo",
     description: "Brazil's largest city",
     distanceFromStart: 2200,
-    imageUrl: "https://images.unsplash.com/photo-1543059080-f9b1272213a5?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1543059080-f9b1272213a5?q=80&w=1000",
+    coordinates: [-23.5505, -46.6333],
   },
   {
     id: 10,
     name: "Florianópolis",
     description: "Island city with beautiful beaches",
     distanceFromStart: 2500,
-    imageUrl: "https://images.unsplash.com/photo-1617142108319-11f0edf9160e?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1617142108319-11f0edf9160e?q=80&w=1000",
+    coordinates: [-27.5949, -48.5482],
   },
   {
     id: 11,
     name: "Porto Alegre",
     description: "Southern cultural hub",
     distanceFromStart: 2750,
-    imageUrl: "https://images.unsplash.com/photo-1591203301323-8aea4e626b9d?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1591203301323-8aea4e626b9d?q=80&w=1000",
+    coordinates: [-30.0346, -51.2177],
   },
   {
     id: 12,
     name: "Chuí",
     description: "Southernmost point of Brazil",
     distanceFromStart: 2900,
-    imageUrl: "https://images.unsplash.com/photo-1600194292090-9a89ef2a9aaf?q=80&w=1000"
+    imageUrl: "https://images.unsplash.com/photo-1600194292090-9a89ef2a9aaf?q=80&w=1000",
+    coordinates: [-33.6861, -53.4597],
   }
 ];
 
@@ -114,11 +127,11 @@ export function getCurrentLandmark(distanceTraveled: number): BrazilLandmark | u
   const passedLandmarks = brazilLandmarks.filter(
     landmark => landmark.distanceFromStart <= distanceTraveled
   );
-  
+
   if (passedLandmarks.length === 0) {
     return undefined;
   }
-  
+
   return passedLandmarks[passedLandmarks.length - 1];
 }
 
@@ -129,6 +142,6 @@ export function getUpcomingLandmarks(distanceTraveled: number, count: number = 3
     .filter(landmark => landmark.distanceFromStart > distanceTraveled)
     .sort((a, b) => a.distanceFromStart - b.distanceFromStart)
     .slice(0, count);
-  
+
   return upcomingLandmarks;
 }
