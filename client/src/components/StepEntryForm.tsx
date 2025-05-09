@@ -40,7 +40,7 @@ export default function StepEntryForm() {
             await addDoc(collection(db, "steps"), {
                 userId: user.uid,
                 date: data.date,
-                steps: data.steps,
+                steps: parseInt(data.steps as unknown as string),
                 createdAt: new Date(),
                 username: user.displayName,
             });
@@ -56,37 +56,39 @@ export default function StepEntryForm() {
     }
 
     return (
-        <Form {...form}>
-            <h3 className="text-xl font-heading font-bold text-neutral-800 mb-4">Submit your steps</h3>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="date"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Date</FormLabel>
-                            <FormControl>
-                                <Input type="date" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="steps"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Steps</FormLabel>
-                            <FormControl>
-                                <Input type="number" min={0} {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit">Submit Steps</Button>
-            </form>
-        </Form>
+        <div className="bg-white rounded-xl shadow-sm p-4">
+            <Form {...form}>
+                <h3 className="text-xl font-heading font-bold text-neutral-800 mb-4">Submit your steps</h3>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="date"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Date</FormLabel>
+                                <FormControl>
+                                    <Input type="date" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="steps"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Steps</FormLabel>
+                                <FormControl>
+                                    <Input type="number" min={0} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <Button type="submit">Submit Steps</Button>
+                </form>
+            </Form>
+        </div>
     );
 }

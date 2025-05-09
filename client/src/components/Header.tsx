@@ -19,36 +19,7 @@ const Header: FC = () => {
           <img src={logoTypeSvg} alt="StepTogether Logo" className="h-12" />
         </div>
 
-        <div className="hidden md:flex items-center space-x-6">
-          <Link href="/">
-            <a className="text-primary hover:text-primary/80 transition-colors font-medium">Dashboard</a>
-          </Link>
-          <Link href="/">
-            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Challenges</a>
-          </Link>
-          <Link href="/">
-            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Team</a>
-          </Link>
-          <Link href="/">
-            <a className="text-neutral-500 hover:text-primary transition-colors dark:text-neutral-300">Achievements</a>
-          </Link>
-        </div>
-
         <div className="flex items-center">
-          <button
-            onClick={toggleTheme}
-            className="mr-4 text-neutral-500 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors"
-          >
-            {theme === "light" ? (
-              <i className="ri-moon-line text-xl"></i>
-            ) : (
-              <i className="ri-sun-line text-xl"></i>
-            )}
-          </button>
-          <div className="mr-4 relative">
-            <i className="ri-notification-3-line text-neutral-500 dark:text-neutral-300 text-xl cursor-pointer"></i>
-            <div className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</div>
-          </div>
           <AuthWidget />
         </div>
       </div>
