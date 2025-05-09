@@ -133,13 +133,34 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
 
       return weekDays;
     } else if (period === "month") {
-      // For monthly view, group by week
-      return [
-        { name: "Week 1", steps: Math.floor(stats.totalSteps * 0.2) },
-        { name: "Week 2", steps: Math.floor(stats.totalSteps * 0.35) },
-        { name: "Week 3", steps: Math.floor(stats.totalSteps * 0.25) },
-        { name: "Week 4", steps: Math.floor(stats.totalSteps * 0.2) },
-      ];
+      // For monthly view, show actual steps for each week
+      const now = new Date();
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const userEntriesThisMonth = entries.filter(e => {
+        const entryDate = new Date(e.date);
+        return entryDate >= monthStart && entryDate <= now;
+      });
+
+      // Calculate week ranges for the month
+      const weeks: { name: string; steps: number }[] = [];
+      let weekStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+      let weekIdx = 1;
+      while (weekStart.getMonth() === now.getMonth() || weekStart <= now) {
+        const weekEnd = addDays(weekStart, 6);
+        const weekEntries = userEntriesThisMonth.filter(e => {
+          const entryDate = new Date(e.date);
+          return entryDate >= weekStart && entryDate <= weekEnd && entryDate.getMonth() === now.getMonth();
+        });
+        const steps = weekEntries.reduce((sum, e) => sum + e.steps, 0);
+        weeks.push({
+          name: `Week ${weekIdx}`,
+          steps,
+        });
+        weekStart = addDays(weekStart, 7);
+        weekIdx++;
+        if (weekStart > now) break;
+      }
+      return weeks;
     }
     return [];
   };
