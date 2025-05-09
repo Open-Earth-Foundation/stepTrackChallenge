@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
+  "root": "client",
+  "build": {
+    "outDir": "dist/public",
+    "emptyOutDir": true
+  },
   "scripts": {
     "dev": "vite --port 5002",
     "emulators": "firebase emulators:start",
@@ -12,6 +17,7 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "vite-plugin-pwa": "^1.0.0",
     "leaflet": "^1.9.4",
     "react-leaflet": "^4.2.1",
     "@hookform/resolvers": "^3.10.0",
