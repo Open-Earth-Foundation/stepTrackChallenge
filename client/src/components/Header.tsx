@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import logoTypeSvg from "../assets/branding/logo-type.svg";
 import { useTheme } from "@/components/ui/theme-provider";
 import AuthWidget from "./AuthWidget";
+import { differenceInCalendarDays } from "date-fns";
 
 const Header: FC = () => {
   const { theme, setTheme } = useTheme();

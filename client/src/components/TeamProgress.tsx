@@ -6,6 +6,8 @@ import brazilFullMap from "../assets/branding/brazil-full-map.png";
 import brazilNewMap from "../assets/branding/brazil-new-map.webp";
 import brazilAccurateMap from "../assets/maps/brazil-accurate-map.svg";
 import earthImageSvg from "../assets/branding/earth-image.svg";
+import { startOfWeek, addDays } from "date-fns";
+import { StepEntry } from "./StepEntryForm";
 
 interface Landmark {
   id: number;
@@ -14,34 +16,79 @@ interface Landmark {
 }
 
 interface TeamProgressProps {
-  totalSteps: number;
-  totalDistance: number;
-  distanceRemaining: number;
-  completionPercentage: number;
   targetDistance: number;
   landmarks: Landmark[];
   currentLandmark: {
     name: string;
-    distanceCompleted: number;
+    distanceFromStart: number;
   };
+  entries: StepEntry[];
 }
 
 const TeamProgress: FC<TeamProgressProps> = ({
-  totalSteps,
-  totalDistance,
-  distanceRemaining,
-  completionPercentage,
   targetDistance,
   landmarks,
-  currentLandmark
+  currentLandmark,
+  entries
 }) => {
-  // Calculate daily average
-  const daysElapsed = 21; // Mock value, would need to calculate from challenge start date
+  console.log('entries', JSON.stringify(entries));// TODO NINA: remove
+  // Calculate total steps and distance from entries
+  const totalSteps = entries.reduce((sum, e) => sum + e.steps, 0);
+  const totalDistance = totalSteps * 0.0008; // 1 step = 0.0008 km
+
+  // Find challenge start date (earliest entry date)
+  const entryDates = entries.map(e => new Date(e.date));
+  let challengeStartDate = new Date();
+  if (entryDates.length > 0) {
+    const minTimestamp = Math.min(...entryDates.map(d => d.getTime()));
+    challengeStartDate = new Date(minTimestamp);
+  }
+  const now = new Date();
+
+  // Calculate days elapsed (inclusive of today)
+  const daysElapsed = Math.max(1, Math.ceil((now.getTime() - challengeStartDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+
+  // Calculate daily averages
   const dailyAverageDistance = totalDistance / daysElapsed;
   const dailyAverageSteps = totalSteps / daysElapsed;
 
+  // Calculate completion percentage
+  const completionPercentage = targetDistance > 0 ? Math.min(100, Math.round((totalDistance / targetDistance) * 100)) : 0;
+
+  // Calculate distance remaining
+  const distanceRemaining = Math.max(0, targetDistance - totalDistance);
+
   // Calculate estimated time remaining
-  const daysRemaining = Math.ceil(distanceRemaining / dailyAverageDistance);
+  const daysRemaining = dailyAverageDistance > 0 ? Math.ceil(distanceRemaining / dailyAverageDistance) : 0;
+
+  // entries: StepEntry[] (all users, all dates)
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const teamEntriesThisMonth = entries.filter(e => {
+    const entryDate = new Date(e.date);
+    return entryDate >= monthStart && entryDate <= now;
+  });
+
+  // Calculate week ranges for the month
+  const weeks: { name: string; steps: number }[] = [];
+  let weekStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+  let weekIdx = 1;
+  while ((weekStart.getMonth() === now.getMonth() && weekStart <= now) || (weekStart <= now && weekIdx <= 6)) {
+    const weekEnd = addDays(weekStart, 6);
+    const weekEntries = teamEntriesThisMonth.filter(e => {
+      const entryDate = new Date(e.date);
+      return entryDate >= weekStart && entryDate <= weekEnd && entryDate.getMonth() === now.getMonth();
+    });
+    const steps = weekEntries.reduce((sum, e) => sum + e.steps, 0);
+    weeks.push({
+      name: `Week ${weekIdx}`,
+      steps,
+    });
+    weekStart = addDays(weekStart, 7);
+    weekIdx++;
+    if (weekStart > now) break;
+  }
+  const chartData = weeks;
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">

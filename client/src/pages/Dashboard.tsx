@@ -139,12 +139,10 @@ const Dashboard = () => {
     description: "Let's walk together in June!"
   }
   const landmarks = brazilLandmarks;
-  const stats = challengeDetailsData?.stats || { totalSteps: 0, totalDistance: 0, completionPercentage: 0 };
   // const landmarks = challengeDetailsData?.landmarks || [];
 
   // Add extra safety checks for other data
   const entries = stepsData?.entries || [];
-  const stepStats = stepsData?.stats || { totalSteps: 0, distanceKm: 0, yesterdaySteps: 0, changeFromYesterday: 0, contributionPercentage: 0, teamPosition: 1 };
   const leaderboardEntries = leaderboardData?.leaderboard || [];
   const upcomingLandmarks = landmarks;
   const recentActivities = activitiesData?.activities || [];
@@ -169,21 +167,14 @@ const Dashboard = () => {
           />
           <IndividualStats
             entries={stepEntries}
-            stats={stepStats}
             period={period}
           />
 
           <TeamProgress
-            totalSteps={stats.totalSteps}
-            totalDistance={stats.totalDistance}
-            distanceRemaining={challenge?.targetDistance - stats.totalDistance}
-            completionPercentage={stats.completionPercentage}
+            entries={stepEntries}
             targetDistance={challenge?.targetDistance}
             landmarks={landmarks}
-            currentLandmark={{
-              name: "Rio de Janeiro",
-              distanceCompleted: stats.totalDistance
-            }}
+            currentLandmark={landmarks[11]}
           />
 
           <Leaderboard
