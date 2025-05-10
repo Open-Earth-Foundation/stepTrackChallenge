@@ -6,12 +6,6 @@ import AuthWidget from "./AuthWidget";
 import { differenceInCalendarDays } from "date-fns";
 
 const Header: FC = () => {
-  const { theme, setTheme } = useTheme();
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">

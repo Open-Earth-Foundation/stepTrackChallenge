@@ -11,10 +11,11 @@ import MobileNav from "@/components/MobileNav";
 import { usePeriod } from "@/hooks/usePeriod";
 import { Period } from "@shared/schema";
 import StepEntryForm from "@/components/StepEntryForm";
-import { brazilLandmarks } from "@/lib/brazilData";
+import { brazilLandmarks, totalDistance } from "@/lib/brazilData";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase"; // adjust path as needed
 import type { StepEntry } from "@/components/StepEntryForm"
+import { Separator } from "@radix-ui/react-context-menu";
 const Dashboard = () => {
   const [period, setPeriod] = usePeriod();
   const [participants, setParticipants] = useState<string[]>([]);
@@ -130,19 +131,18 @@ const Dashboard = () => {
   // }
 
   // Get all necessary data, using safe defaults if needed
-  const user = userData?.user;
   const challenge = {
     name: "June Challenge",
     targetDistance: 100000,
-    endDate: new Date(2025, 4, 31),
+    endDate: new Date(2025, 5, 30),
     description: "Let's walk together in June!",
-    startDate: new Date(2025, 4, 1)
+    startDate: new Date(2025, 5, 1)
   }
   const landmarks = brazilLandmarks;
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header user={user} />
+      <Header />
 
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-6">
@@ -153,14 +153,12 @@ const Dashboard = () => {
 
 
           <StepEntryForm />
-          <PeriodSelector
-            period={period}
-            onChange={handlePeriodChange}
-          />
+
           <IndividualStats
+            handlePeriodChange={handlePeriodChange}
             entries={stepEntries}
             period={period}
-            challengeStartDate={challenge.startDate}
+            challengeStartDate={challenge.startDate.toISOString()}
           />
 
           <TeamProgress
@@ -169,11 +167,10 @@ const Dashboard = () => {
             currentLandmark={landmarks[11]}
           />
 
-          {/* <Leaderboard
-            leaderboard={leaderboardEntries}
-            upcomingLandmarks={upcomingLandmarks}
-            currentUserId={user?.id}
-          /> */}
+          <Leaderboard
+            entries={stepEntries}
+            upcomingLandmarks={landmarks.filter(landmark => landmark.distanceFromStart <= totalDistance)}
+          />
 
           {/* <RecentActivities
             activities={recentActivities}

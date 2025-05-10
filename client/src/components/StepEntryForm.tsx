@@ -56,7 +56,7 @@ export default function StepEntryForm() {
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm p-4">
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
             <Form {...form}>
                 <h3 className="text-xl font-heading font-bold text-neutral-800 mb-4">Submit your steps</h3>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

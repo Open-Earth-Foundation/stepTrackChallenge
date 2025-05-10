@@ -1,5 +1,9 @@
+import { BrazilLandmark } from "@/lib/brazilData";
 import { FC } from "react";
-
+import { StepEntry } from "./StepEntryForm";
+import { startOfMonth } from "date-fns";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 interface User {
   id: number;
   displayName: string;
@@ -13,22 +17,31 @@ interface LeaderboardEntry {
   weeklySteps: number;
 }
 
-interface UpcomingLandmark {
-  id: number;
-  name: string;
-  description: string;
-  distanceFromStart: number;
-  distanceRemaining: number;
-  imageUrl: string;
-}
-
 interface LeaderboardProps {
-  leaderboard: LeaderboardEntry[];
-  upcomingLandmarks: UpcomingLandmark[];
-  currentUserId: number;
+  entries: StepEntry[];
+  upcomingLandmarks: BrazilLandmark[];
 }
 
-const Leaderboard: FC<LeaderboardProps> = ({ leaderboard, upcomingLandmarks, currentUserId }) => {
+const Leaderboard: FC<LeaderboardProps> = ({ entries, upcomingLandmarks }) => {
+  const [user] = useAuthState(auth);
+  const currentUserId = user?.uid;
+  // Group entries by userId and sum steps for the current month
+  const now = new Date();
+  const monthStart = startOfMonth(now);
+  const userStepsMap: { [userId: string]: { username: string; steps: number } } = {};
+  entries.forEach(entry => {
+    const entryDate = new Date(entry.date);
+    if (entryDate >= monthStart && entryDate <= now) {
+      if (!userStepsMap[entry.userId]) {
+        userStepsMap[entry.userId] = { username: entry.username || entry.userId, steps: 0 };
+      }
+      userStepsMap[entry.userId].steps += entry.steps;
+    }
+  });
+  const leaderboard = Object.entries(userStepsMap)
+    .map(([userId, { username, steps }]) => ({ userId, username, steps }))
+    .sort((a, b) => b.steps - a.steps);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
@@ -37,12 +50,12 @@ const Leaderboard: FC<LeaderboardProps> = ({ leaderboard, upcomingLandmarks, cur
         {/* Leaderboard List */}
         <div className="space-y-4">
           {leaderboard.map((entry, index) => {
-            const isCurrentUser = entry.user.id === currentUserId;
+            const isCurrentUser = entry.userId === currentUserId;
             const position = index + 1;
 
             return (
               <div
-                key={entry.user.id}
+                key={entry.userId}
                 className={`flex items-center justify-between p-3 rounded-lg ${isCurrentUser ? 'bg-neutral-100' : 'hover:bg-neutral-100'
                   }`}
               >
@@ -61,20 +74,19 @@ const Leaderboard: FC<LeaderboardProps> = ({ leaderboard, upcomingLandmarks, cur
                   </div>
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-white font-medium mr-3"
-                    style={{ backgroundColor: entry.user.avatarColor }}
                   >
-                    {entry.user.initials}
+                    {entry.username}
                   </div>
                   <div>
                     <div className={`font-medium ${isCurrentUser ? 'text-primary' : 'text-neutral-800'}`}>
-                      {isCurrentUser ? 'You' : entry.user.displayName}
+                      {isCurrentUser ? 'You' : entry.username}
                     </div>
-                    <div className="text-sm text-neutral-500">{entry.totalSteps.toLocaleString()} steps today</div>
+                    <div className="text-sm text-neutral-500">{entry.steps.toLocaleString()} steps this month</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-neutral-800">{entry.totalSteps.toLocaleString()}</div>
-                  <div className="text-sm text-primary">+{entry.weeklySteps.toLocaleString()} steps this week</div>
+                  <div className="font-bold text-neutral-800">{entry.steps.toLocaleString()}</div>
+                  <div className="text-sm text-primary">+{entry.steps.toLocaleString()} steps this month</div>
                 </div>
               </div>
             );
@@ -105,9 +117,8 @@ const Leaderboard: FC<LeaderboardProps> = ({ leaderboard, upcomingLandmarks, cur
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
                 <div className="text-white font-bold">{landmark.name}</div>
                 <div className="text-white/80 text-sm">
-                  {landmark.distanceRemaining < 1
-                    ? "Just ahead!"
-                    : `${Math.round(landmark.distanceRemaining)} km ahead`}
+                  {/* distanceRemaining is not available on BrazilLandmark, so just show the name or a placeholder */}
+                  {landmark.name}
                 </div>
               </div>
             </div>

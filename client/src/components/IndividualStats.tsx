@@ -5,15 +5,17 @@ import { format, parseISO, startOfWeek, addDays, differenceInCalendarDays } from
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase"; // adjust path as needed
 import { StepEntry } from "./StepEntryForm";
+import PeriodSelector from "./PeriodSelector";
 
 
 interface StatsProps {
   entries: StepEntry[];
   period: "week" | "month"; // Only allow week or month
   challengeStartDate: string;
+  handlePeriodChange: (period: "week" | "month") => void;
 }
 
-const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }) => {
+const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate, handlePeriodChange }) => {
   const [user] = useAuthState(auth);
 
   // Memoize calculations for performance
@@ -162,6 +164,10 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+      <PeriodSelector
+        period={period}
+        onChange={handlePeriodChange}
+      />
       <h3 className="text-xl font-heading font-bold text-neutral-800 mb-4">Your Progress</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
