@@ -45,10 +45,29 @@ export default function StepEntryForm() {
                 username: user.displayName,
             });
             form.reset();
-            alert("Steps submitted!");
+            showToast("Steps submitted!");
         } catch (e) {
             alert("Error submitting steps: " + (e as Error).message);
         }
+    };
+
+    const showToast = (message: string) => {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '2rem';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = '#2563eb';
+        toast.style.color = 'white';
+        toast.style.padding = '1rem 2rem';
+        toast.style.borderRadius = '0.5rem';
+        toast.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+        toast.style.zIndex = '9999';
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 2000);
     };
 
     if (!user) {
