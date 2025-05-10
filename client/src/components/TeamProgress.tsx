@@ -57,7 +57,7 @@ const TeamProgress: FC<TeamProgressProps> = ({
   console.log('entries', JSON.stringify(entries));// TODO NINA: remove
   // Calculate total steps and distance from entries
   const totalSteps = entries.reduce((sum, e) => sum + e.steps, 0);
-  const totalDistance = totalSteps * 0.0008; // 1 step = 0.0008 km
+  const totalDistance = totalSteps * 0.00085; // 1 step = 0.0008 km
 
   // Find challenge start date (earliest entry date)
   const entryDates = entries.map(e => new Date(e.date));
