@@ -24,16 +24,15 @@ const Dashboard = () => {
     async function fetchParticipants() {
       try {
         const querySnapshot = await getDocs(collection(db, "steps"));
-        const userNames = new Set();
-        const stepEntries = [];
+        const userNames = new Set<string>();
+        const stepEntries: StepEntry[] = [];
         querySnapshot.forEach(doc => {
-          console.log('doc', doc.data());
           const data = doc.data();
           userNames.add(data.username);
-          stepEntries.push(data);
+          stepEntries.push(data as StepEntry);
         });
         setParticipants(Array.from(userNames) as string[]);
-        setStepEntries(stepEntries as StepEntry[]);
+        setStepEntries(stepEntries);
       } catch (error) {
         console.error("Error fetching participants:", error);
       }
@@ -135,18 +134,11 @@ const Dashboard = () => {
   const challenge = {
     name: "June Challenge",
     targetDistance: 100000,
-    endDate: new Date(2025, 5, 31),
-    description: "Let's walk together in June!"
+    endDate: new Date(2025, 4, 31),
+    description: "Let's walk together in June!",
+    startDate: new Date(2025, 4, 1)
   }
   const landmarks = brazilLandmarks;
-  // const landmarks = challengeDetailsData?.landmarks || [];
-
-  // Add extra safety checks for other data
-  const entries = stepsData?.entries || [];
-  const leaderboardEntries = leaderboardData?.leaderboard || [];
-  const upcomingLandmarks = landmarks;
-  const recentActivities = activitiesData?.activities || [];
-
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -168,24 +160,24 @@ const Dashboard = () => {
           <IndividualStats
             entries={stepEntries}
             period={period}
+            challengeStartDate={challenge.startDate}
           />
 
           <TeamProgress
             entries={stepEntries}
-            targetDistance={challenge?.targetDistance}
             landmarks={landmarks}
             currentLandmark={landmarks[11]}
           />
 
-          <Leaderboard
+          {/* <Leaderboard
             leaderboard={leaderboardEntries}
             upcomingLandmarks={upcomingLandmarks}
             currentUserId={user?.id}
-          />
+          /> */}
 
-          <RecentActivities
+          {/* <RecentActivities
             activities={recentActivities}
-          />
+          /> */}
         </div>
       </main>
 

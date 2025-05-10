@@ -21,75 +21,68 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
     if (!user) return null;
     const userEntries = entries.filter(e => e.userId === user.uid);
     const today = new Date();
-
-    // --- WEEKLY STATS ---
-    const weekStart = startOfWeek(today, { weekStartsOn: 1 });
     const challengeStart = new Date(challengeStartDate);
     const isChallengeStartValid = !isNaN(challengeStart.getTime());
-    const weekStartOrChallenge = (isChallengeStartValid && weekStart > challengeStart)
-      ? weekStart
-      : (isChallengeStartValid ? challengeStart : weekStart);
 
-    const userEntriesThisWeek = userEntries.filter(e => {
-      const entryDate = new Date(e.date);
-      return entryDate >= weekStartOrChallenge && entryDate <= today;
-    });
-    const weekTotalSteps = userEntriesThisWeek.reduce((sum, e) => sum + e.steps, 0);
-    const daysInWeekSoFar = Math.max(
-      1,
-      differenceInCalendarDays(today, weekStartOrChallenge) + 1
-    );
-    const weekAverage = Math.round(weekTotalSteps / daysInWeekSoFar);
-
-    // --- MONTHLY STATS ---
-    const now = today;
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-    const monthStartOrChallenge = (isChallengeStartValid && monthStart > challengeStart)
-      ? monthStart
-      : (isChallengeStartValid ? challengeStart : monthStart);
-
-    const userEntriesThisMonth = userEntries.filter(e => {
-      const entryDate = new Date(e.date);
-      return entryDate >= monthStartOrChallenge && entryDate <= today;
-    });
-    const monthTotalSteps = userEntriesThisMonth.reduce((sum, e) => sum + e.steps, 0);
-    const daysInMonthSoFar = Math.max(
-      1,
-      differenceInCalendarDays(today, monthStartOrChallenge) + 1
-    );
-    const monthAverage = Math.round(monthTotalSteps / daysInMonthSoFar);
-
-    // Total steps for the period
-    let totalSteps = 0;
+    // --- PERIOD LOGIC ---
+    let periodStart: Date;
     if (period === "week") {
-      totalSteps = weekTotalSteps;
+      const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+      periodStart = (isChallengeStartValid && weekStart > challengeStart)
+        ? weekStart
+        : (isChallengeStartValid ? challengeStart : weekStart);
     } else if (period === "month") {
-      totalSteps = monthTotalSteps;
+      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+      periodStart = (isChallengeStartValid && monthStart > challengeStart)
+        ? monthStart
+        : (isChallengeStartValid ? challengeStart : monthStart);
+    } else {
+      // fallback: use challenge start
+      periodStart = isChallengeStartValid ? challengeStart : today;
     }
+
+    // --- FILTER ENTRIES FOR PERIOD ---
+    const userEntriesThisPeriod = userEntries.filter(e => {
+      const entryDate = new Date(e.date);
+      return entryDate >= periodStart && entryDate <= today;
+    });
+    // Filter all entries for the selected period
+    const allEntriesThisPeriod = entries.filter(e => {
+      const entryDate = new Date(e.date);
+      return entryDate >= periodStart && entryDate <= today;
+    });
+
+    const totalSteps = userEntriesThisPeriod.reduce((sum, e) => sum + e.steps, 0);
+    const daysInPeriodSoFar = Math.max(
+      1,
+      differenceInCalendarDays(today, periodStart) + 1
+    );
+    const averageSteps = Math.round(totalSteps / daysInPeriodSoFar);
 
     // Distance: assume 1 step = 0.00085 km (adjust as needed)
     const distanceKm = totalSteps * 0.00085;
 
-    // Team stats (for today)
-    const todayStr = today.toISOString().slice(0, 10);
-    const allTodayEntries = entries.filter(e => e.date === todayStr);
-    const teamTotalSteps = allTodayEntries.reduce((sum, e) => sum + e.steps, 0);
-    const todayEntry = userEntries.find(e => e.date === todayStr);
+    // Team stats (for the selected period)
+    const teamTotalSteps = allEntriesThisPeriod.reduce((sum, e) => sum + e.steps, 0);
+    const userTotalSteps = userEntriesThisPeriod.reduce((sum, e) => sum + e.steps, 0);
     const contributionPercentage = teamTotalSteps
-      ? Math.round(((todayEntry?.steps || 0) / teamTotalSteps) * 100)
+      ? Math.round(((userTotalSteps || 0) / teamTotalSteps) * 100)
       : 0;
 
     // Team position (rank)
-    const sorted = [...allTodayEntries].sort((a, b) => b.steps - a.steps);
+    const sorted = [...allEntriesThisPeriod].sort((a, b) => b.steps - a.steps);
     const teamPosition = sorted.findIndex(e => e.userId === user.uid) + 1;
 
     return {
       totalSteps,
+      userTotalSteps,
       distanceKm,
       contributionPercentage,
       teamPosition,
-      weekAverage,
-      monthAverage,
+      averageSteps,
+      daysInPeriodSoFar,
+      periodStart,
+      userEntriesThisPeriod,
     };
   }, [entries, user, period, challengeStartDate]);
 
@@ -117,7 +110,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
         const isToday = format(day, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
 
         // Find entry for this day
-        const entry = entries.find(e => {
+        const entry = stats.userEntriesThisPeriod.find(e => {
           if (typeof e.date === 'string') {
             return e.date === format(day, 'yyyy-MM-dd');
           }
@@ -138,7 +131,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
       const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
       const userEntriesThisMonth = entries.filter(e => {
         const entryDate = new Date(e.date);
-        return entryDate >= monthStart && entryDate <= now;
+        return entryDate >= monthStart && entryDate <= now && e.userId === user.uid;
       });
 
       // Calculate week ranges for the month
@@ -181,7 +174,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
             color="var(--primary)"
           />
           <div className="ml-4">
-            <h4 className="text-lg font-bold text-neutral-800">{stats.totalSteps.toLocaleString()}</h4>
+            <h4 className="text-lg font-bold text-neutral-800">{stats.userTotalSteps.toLocaleString()}</h4>
             <p className="text-neutral-500">Steps this {period}</p>
           </div>
         </div>
@@ -224,9 +217,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
             Steps This {period.charAt(0).toUpperCase() + period.slice(1)}
           </h4>
           <div className="text-sm text-neutral-500">
-            Average: {period === "week"
-              ? stats.weekAverage.toLocaleString()
-              : stats.monthAverage.toLocaleString()} steps / day
+            Average: {stats.averageSteps.toLocaleString()} steps / day
           </div>
         </div>
 
@@ -259,8 +250,8 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
               <Bar
                 dataKey="steps"
                 fill="rgba(255, 87, 51, 0.2)"
-                shape={(props) => {
-                  const { x, y, width, height, today } = props;
+                shape={(props: any) => {
+                  const { x, y, width, height } = props;
                   return (
                     <rect
                       x={x}
@@ -268,7 +259,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
                       width={width}
                       height={height}
                       rx={4}
-                      fill={today ? "rgba(51, 161, 255, 0.2)" : "rgba(255, 87, 51, 0.2)"}
+                      fill="rgba(255, 87, 51, 0.2)"
                     />
                   );
                 }}
@@ -277,7 +268,7 @@ const IndividualStats: FC<StatsProps> = ({ entries, period, challengeStartDate }
                   <Bar
                     key={`bar-${index}`}
                     dataKey="steps"
-                    fill={entry.today ? "var(--secondary)" : "var(--primary)"}
+                    fill="var(--primary)"
                     radius={[4, 4, 0, 0]}
                   />
                 ))}
@@ -311,7 +302,7 @@ interface ChallengeHeaderProps {
 const ChallengeHeader: FC<ChallengeHeaderProps> = ({ entries }) => {
   // Extract unique users by userId
   const uniqueUsers = Array.from(
-    new Map(entries.map(entry => [entry.userId, entry.displayName])).entries()
+    new Map(entries.map(entry => [entry.userId, entry.username || entry.userId])).entries()
   ).map(([userId, displayName]) => ({ userId, displayName }));
 
   return (

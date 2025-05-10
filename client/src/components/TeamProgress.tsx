@@ -9,6 +9,7 @@ import earthImageSvg from "../assets/branding/earth-image.svg";
 import { startOfWeek, addDays } from "date-fns";
 import { StepEntry } from "./StepEntryForm";
 import TeamJourneyMap from "./TeamJourneyMap";
+import { brazilLandmarks } from "@/lib/brazilData";
 
 interface Landmark {
   id: number;
@@ -17,7 +18,6 @@ interface Landmark {
 }
 
 interface TeamProgressProps {
-  targetDistance: number;
   landmarks: Landmark[];
   currentLandmark: {
     name: string;
@@ -26,8 +26,30 @@ interface TeamProgressProps {
   entries: StepEntry[];
 }
 
+function haversineDistance([lat1, lon1]: [number, number], [lat2, lon2]: [number, number]): number {
+  const toRad = (x: number) => x * Math.PI / 180;
+  const R = 6371; // Earth radius in km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+let targetDistance = 0;
+for (let i = 1; i < brazilLandmarks.length; i++) {
+  const prev = brazilLandmarks[i - 1];
+  const curr = brazilLandmarks[i];
+  const dist = haversineDistance(prev.coordinates, curr.coordinates);
+  console.log(`Segment ${prev.name} to ${curr.name}: ${dist.toFixed(2)} km`);
+  targetDistance += dist;
+}
+console.log('targetDistance', targetDistance);
+
 const TeamProgress: FC<TeamProgressProps> = ({
-  targetDistance,
   landmarks,
   currentLandmark,
   entries
@@ -45,7 +67,6 @@ const TeamProgress: FC<TeamProgressProps> = ({
     challengeStartDate = new Date(minTimestamp);
   }
   const now = new Date();
-
   // Calculate days elapsed (inclusive of today)
   const daysElapsed = Math.max(1, Math.ceil((now.getTime() - challengeStartDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
 
@@ -91,6 +112,7 @@ const TeamProgress: FC<TeamProgressProps> = ({
   }
   const chartData = weeks;
 
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
       <div className="flex justify-between items-center mb-6">
@@ -127,7 +149,9 @@ const TeamProgress: FC<TeamProgressProps> = ({
         <div className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4">
           <div className="text-sm text-neutral-700 dark:text-white mb-1">Completion</div>
           <div className="text-xl font-bold text-neutral-800 dark:text-white">{completionPercentage}%</div>
-          <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-300">Target: {targetDistance && targetDistance.toLocaleString()} km</div>
+          <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-300">
+            Target: {targetDistance && Math.round(targetDistance * 1000).toLocaleString()} km
+          </div>
         </div>
       </div>
 
